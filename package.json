@@ -1,6 +1,6 @@
 {
   "name": "dsh-skill-hardload",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Session-level hard-load switch for the main-session orchestrator skill.",
   "license": "MIT",
   "type": "module",

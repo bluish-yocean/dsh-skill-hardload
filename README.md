@@ -55,7 +55,7 @@ dsh web --profile <name> --port <port>
 
 本包也**不声明** `engines.dsh`。它只依赖稳定的 service / slot 契约（`slots`、`tools`、`agent/*`、`webServer`）；写死版本范围反而会在每个 DSH 预发布版上把装好的包拒之门外——SemVer 里 `0.2.1-rc.3 < 0.2.1`，任何 `>=0.2.1` 的写法都会误拒。真实兼容性由「已知边界」那节的契约决定，不由版本号决定。
 
-要固定版本，用 tag 或 commit：`github:bluish-yocean/dsh-skill-hardload#v0.0.2`。
+要固定版本，用 tag 或 commit：`github:bluish-yocean/dsh-skill-hardload#v0.0.3`。
 
 安装形态下 `settings.json` 写在**包目录旁**，而 git 依赖的包目录位于 pnpm store：`pnpm store prune` 或重装会把它清掉，此时设置回落 `config:` 默认值。要让它稳定，用 patch 层把 `settingsPath` 指到固定位置：
 
