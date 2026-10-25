@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Skill hard load">
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="#1f4a7a"/>
+  <path d="M20 40V24h5.4l6.6 9.6L38.6 24H44v16h-5v-8.2l-6.4 9.2h-1.2L25 31.8V40z" fill="#eaf2fb"/>
+  <circle cx="48" cy="18" r="6" fill="#57d9a3"/>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Skill 硬加载",
+    "description": "会话级开关：开启后在会话内强制先加载 main-agent-orchestrator 技能，并拦截未加载时的写文件与构建命令。"
+  }
+}

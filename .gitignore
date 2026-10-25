@@ -1,0 +1,7 @@
+node_modules/
+
+# 运行时数据：本插件首次保存设置时写在包旁，属于单个用户的会话状态，不随包分发
+settings.json
+settings.json.trace.log
+
+*.log

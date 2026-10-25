@@ -1,0 +1,56 @@
+{
+  "name": "dsh-skill-hardload",
+  "version": "0.0.1",
+  "description": "Session-level hard-load switch for the main-session orchestrator skill.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./client/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "lib",
+    "client",
+    "cordis.patch.yml",
+    "locale",
+    "icon.svg",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node test/guard.test.mjs && node test/source.test.mjs && node test/host.test.mjs && node test/client.test.mjs"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "dsh-bundle",
+    "cordis",
+    "skill",
+    "orchestrator"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluish-yocean/dsh-skill-hardload.git"
+  },
+  "homepage": "https://github.com/bluish-yocean/dsh-skill-hardload#readme",
+  "bugs": {
+    "url": "https://github.com/bluish-yocean/dsh-skill-hardload/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Skill Hard Load",
+    "description": "Per-session switch that forces the main-agent-orchestrator skill before coding work and blocks write/build tool calls until it is loaded."
+  }
+}
