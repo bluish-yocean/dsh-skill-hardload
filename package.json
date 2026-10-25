@@ -1,6 +1,6 @@
 {
   "name": "dsh-skill-hardload",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Session-level hard-load switch for the main-session orchestrator skill.",
   "license": "MIT",
   "type": "module",
@@ -19,6 +19,7 @@
     "cordis.patch.yml",
     "locale",
     "icon.svg",
+    "skills",
     "README.md"
   ],
   "scripts": {

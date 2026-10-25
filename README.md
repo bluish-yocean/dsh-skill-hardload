@@ -10,9 +10,10 @@
 | `lib/guard.js` | 纯策略：技能名规则、注入/拒绝文案、哪些调用受守卫、什么算命中技能加载 |
 | `client/client.js` | 浏览器半侧：`window.__ModuleLoader__` 工厂，注册 `conversation.input.right` 的 chip 与 `settings.section` 的设置页；不存设置，全部走宿主 |
 | `cordis.patch.yml` | bundle patch，插入插件行 |
-| `test/` | 43 条用例（守卫策略 10 + 宿主 import 白名单 3 + 宿主路由/注入/持久化 17 + 客户端两个座位 13） |
+| `test/` | 45 条用例（守卫策略 11 + 宿主 import 白名单 3 + 宿主路由/注入/持久化 18 + 客户端两个座位 13） |
 | `settings.json` | 运行时由本插件写的设置文件（首次保存时出现），优先级高于 `config:` |
 | `evidence/` | 沙箱实测截图与证据说明 |
+| `skills/` | 三个配套技能文本（编排者 + 架构师 + 工程师），随仓库分发，不参与插件运行 |
 
 ## 接口
 
@@ -52,7 +53,9 @@ dsh web --profile <name> --port <port>
 
 本包**不需要** git 安装的构建授权（`allowBuilds`）：包里没有 `prepare` / `install` / `postinstall` 脚本，`lib/` 与 `client/` 都是随仓库提交的 ESM 源码，没有构建步骤；宿主半侧只 import `node:*`。也就是说 pnpm 在安装期无事可跑。
 
-要固定版本，用 tag 或 commit：`github:bluish-yocean/dsh-skill-hardload#v0.0.1`。
+本包也**不声明** `engines.dsh`。它只依赖稳定的 service / slot 契约（`slots`、`tools`、`agent/*`、`webServer`）；写死版本范围反而会在每个 DSH 预发布版上把装好的包拒之门外——SemVer 里 `0.2.1-rc.3 < 0.2.1`，任何 `>=0.2.1` 的写法都会误拒。真实兼容性由「已知边界」那节的契约决定，不由版本号决定。
+
+要固定版本，用 tag 或 commit：`github:bluish-yocean/dsh-skill-hardload#v0.0.2`。
 
 安装形态下 `settings.json` 写在**包目录旁**，而 git 依赖的包目录位于 pnpm store：`pnpm store prune` 或重装会把它清掉，此时设置回落 `config:` 默认值。要让它稳定，用 patch 层把 `settingsPath` 指到固定位置：
 
@@ -85,6 +88,41 @@ dsh web --profile <name> --port <port>
     defaultEnabled: false
     defaultSkill: main-agent-orchestrator
 ```
+
+## 附带技能
+
+`skills/` 下三个技能文本与插件同仓分发，供安装到用户级技能目录。它们**不进运行路径**：插件只按名字加载技能，技能正文由宿主的 skill 加载器从用户级目录读，不在本包内解析。
+
+| 目录 | 技能名 | 用途 |
+|---|---|---|
+| `skills/main-agent-orchestrator/` | `main-agent-orchestrator` | 主会话编排：拆解、派发、校验、整合、复盘 |
+| `skills/sub-agent-architect/` | `sub-agent-architect` | 子代理：定方案、定边界、写接口契约，不写实现 |
+| `skills/sub-agent-developer/` | `sub-agent-developer` | 子代理：按既定设计实现、补测试、验证构建 |
+
+安装（三者内容都只有一个 `SKILL.md`，复制目录即可）：
+
+```sh
+cp -r node_modules/dsh-skill-hardload/skills/* ~/.dsh/skills/
+```
+
+包目录不在手边时，直接从仓库取：
+
+```sh
+git clone --depth 1 https://github.com/bluish-yocean/dsh-skill-hardload.git /tmp/ssh-skills
+mkdir -p ~/.dsh/skills && cp -r /tmp/ssh-skills/skills/* ~/.dsh/skills/
+```
+
+Windows PowerShell：
+
+```powershell
+$pkg = "$env:USERPROFILE\.dsh\profiles\<profile>\node_modules\dsh-skill-hardload\skills"
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.dsh\skills" | Out-Null
+Copy-Item "$pkg\*" "$env:USERPROFILE\.dsh\skills\" -Recurse -Force
+```
+
+`cp -r` 覆盖同名目录时会把 `SKILL.md` 写进去但不清理旧文件；本地已改过同名技能时先移开再复制，避免两份内容混在一个目录里。
+
+默认的 `defaultSkill` 就是 `main-agent-orchestrator`。这个技能要真生效，`~/.dsh/skills/main-agent-orchestrator/SKILL.md` 必须先存在：开启硬加载后模型第一次 `skill(main-agent-orchestrator)` 若失败，会话停在未加载态，而守卫仍拦写文件——先补技能文件，再从设置页关掉开关自救。
 
 ## 手动验收（GUI）
 
